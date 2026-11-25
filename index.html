@@ -298,7 +298,32 @@ footer{
     <p class="viewer-tip">
       Drag your finger across the character to rotate and view them from different angles.
     </p>
+  <div class="color-section">
+  <h3>Skin Colour</h3>
 
+  <div class="color-options">
+    <button type="button" class="color-dot selected"
+      style="background:#C9895D"
+      onclick="chooseSkinColor('#C9895D',this)"></button>
+
+    <button type="button" class="color-dot"
+      style="background:#F1C27D"
+      onclick="chooseSkinColor('#F1C27D',this)"></button>
+
+    <button type="button" class="color-dot"
+      style="background:#A96B45"
+      onclick="chooseSkinColor('#A96B45',this)"></button>
+
+    <button type="button" class="color-dot"
+      style="background:#75452D"
+      onclick="chooseSkinColor('#75452D',this)"></button>
+
+    <button type="button" class="color-dot"
+      style="background:#4B2E20"
+      onclick="chooseSkinColor('#4B2E20',this)"></button>
+  </div>
+  </div>
+    
     <div class="color-section">
   <h3>Choose your top colour</h3>
   <div class="color-options">
@@ -506,6 +531,8 @@ let worldViewer = null;
   trousers:'#202b55',
   shoes:'#111111'
 };
+
+  let selectedSkinColor = '#C9895D';
   
 function show (id){
   document.querySelectorAll('.screen').forEach(screen =>
@@ -632,6 +659,8 @@ function makeViewer(canvasId,messageId){
   setClothingColor(part,color);
 });
 
+        setSkinColor(selectedSkinColor);
+        
         if(gltf.animations && gltf.animations.length){
           mixer = new THREE.AnimationMixer(model);
           const idleClip =
@@ -688,6 +717,29 @@ function makeViewer(canvasId,messageId){
       });
     });
     }
+
+  function setSkinColor(color){
+  if(!modelGroup) return;
+
+  const skinMaterialNames = currentModel === 'male'
+    ? ['Skin_3','Face_Casual_Man']
+    : ['Skin_1','Face_Casual_Woman'];
+
+  modelGroup.traverse(object => {
+    if(!object.isMesh || !object.material) return;
+
+    const materials = Array.isArray(object.material)
+      ? object.material
+      : [object.material];
+
+    materials.forEach(material => {
+      if(skinMaterialNames.includes(material.name) && material.color){
+        material.color.set(color);
+        material.needsUpdate = true;
+      }
+    });
+  });
+  }
   
   canvas.addEventListener('pointerdown',event => {
     dragging = true;
@@ -719,8 +771,7 @@ function makeViewer(canvasId,messageId){
   window.addEventListener('resize',resize);
   resize();
 
-  return {loadModel,resize,setClothingColor};
-}
+  return {loadModel,resize,setClothingColor,setSkinColor};
 
 function selectGender(gender){
   selectedGender = gender;
@@ -741,6 +792,9 @@ function startGame(){
   if(saved){
     try{
       character = JSON.parse(saved);
+      if(character.skinColor){
+  selectedSkinColor = character.skinColor;
+      }
       
       if(character.colors){
   Object.assign(selectedClothingColors,character.colors);
@@ -780,8 +834,8 @@ function saveCharacter(){
   name:name,
   gender:selectedGender,
   model:MODEL_FILES[selectedGender],
-  colors:{...selectedClothingColors}
-};
+  colors:{...selectedClothingColors},
+skinColor:selectedSkinColor
 
   localStorage.setItem(
     'vyndoraCharacter',
@@ -812,6 +866,9 @@ function changeCharacter(){
 
   if(saved){
     character = JSON.parse(saved);
+    if(character.skinColor){
+  selectedSkinColor = character.skinColor;
+    }
 
     if(character.colors){
   Object.assign(selectedClothingColors,character.colors);
@@ -844,6 +901,21 @@ function changeCharacter(){
   if(creatorViewer){
     creatorViewer.setClothingColor(part,color);
   }
+    function chooseSkinColor(color,button){
+  selectedSkinColor = color;
+
+  if(creatorViewer){
+    creatorViewer.setSkinColor(color);
+  }
+
+  const group = button.parentElement;
+
+  group.querySelectorAll('.color-dot').forEach(dot => {
+    dot.classList.remove('selected');
+  });
+
+  button.classList.add('selected');
+    }
 
   const group = button.parentElement;
 
@@ -865,6 +937,7 @@ window.saveCharacter = saveCharacter;
 window.enterCity = enterCity;
 window.show = show;
 window.chooseClothingColor = chooseClothingColor;
+window.chooseSkinColor = chooseSkinColor;
 </script>
 </body>
 </html>
