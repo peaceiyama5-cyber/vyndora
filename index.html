@@ -474,6 +474,12 @@ footer{
     This is the beginning of your virtual life.
   </p>
 
+  <div class="panel" id="lagosTimePanel">
+  <p> LAGOS LOCAL TIME </p>
+  <h2 id="lagosClock">Loading time...</h2>
+  <p id="lagosDayStatus">Checking the time of day...</p>
+  </div>
+
   <div class="city">
     <div class="city-art" style="height:210px">
       🏙️ 🚌 🏬 🌴 🚗
@@ -929,8 +935,48 @@ function chooseSkinColor(color,button){
   button.classList.add('selected');
 }
   
+let lagosClockTimer = null;
+
+function updateLagosClock(){
+  const now = new Date();
+
+  const clock = document.getElementById('lagosClock');
+  const status = document.getElementById('lagosDayStatus');
+
+  if(!clock || !status) return;
+
+  clock.textContent = new Intl.DateTimeFormat('en-NG', {
+    timeZone: 'Africa/Lagos',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: true
+  }).format(now);
+
+  const hour = Number(new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Africa/Lagos',
+    hour: '2-digit',
+    hourCycle: 'h23'
+  }).format(now));
+
+  if(hour >= 5 && hour < 12){
+    status.textContent = 'Good morning ☀️';
+  } else if(hour >= 12 && hour < 17){
+    status.textContent = 'Good afternoon 🌤️';
+  } else if(hour >= 17 && hour < 20){
+    status.textContent = 'Good evening 🌇';
+  } else {
+    status.textContent = 'Night time 🌙';
+  }
+}
+
 function enterCity(){
   show('lagos');
+  updateLagosClock();
+
+  if(lagosClockTimer === null){
+    lagosClockTimer = setInterval(updateLagosClock, 1000);
+  }
 }
 
 window.startGame = startGame;
