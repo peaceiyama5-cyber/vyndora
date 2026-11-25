@@ -673,13 +673,38 @@ function loadCharacter(){
   document.getElementById('savedGender').textContent =
     character.gender === 'male' ? 'Male character' : 'Female character';
 }
+function changeCharacter(){
+  const saved = localStorage.getItem('vyndoraCharacter');
 
+  if(saved){
+    character = JSON.parse(saved);
+    selectedGender = character.gender || 'female';
+    document.getElementById('playerName').value =
+      character.name || '';
+  }
+
+  show('creator');
+
+  document.getElementById('maleButton')
+    .classList.toggle('selected',selectedGender === 'male');
+
+  document.getElementById('femaleButton')
+    .classList.toggle('selected',selectedGender === 'female');
+
+  if(!creatorViewer){
+    creatorViewer = makeViewer(
+      'creatorCanvas','creatorMessage'
+    );
+  }
+
+  creatorViewer.loadModel(selectedGender);
+}
 function enterCity(){
   show('lagos');
 }
 
 window.startGame = startGame;
-window.selectGender = selectGender;
+window.selectGender = sewindow.changeCharacter = changeCharacter;lectGender;
 window.saveCharacter = saveCharacter;
 window.enterCity = enterCity;
 window.show = show;
