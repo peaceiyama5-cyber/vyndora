@@ -263,7 +263,22 @@ footer{
     <p class="viewer-tip">
       Drag your finger across the character to rotate and view them from different angles.
     </p>
+<div class="panel">
+  <h2>Choose your outfit colours</h2>
+  <p>Make your character's outfit your own.</p>
 
+  <label for="topColor">Top colour</label>
+  <input type="color" id="topColor" value="#202b55"
+    oninput="previewClothingColor('top',this.value)">
+
+  <label for="trouserColor">Trouser colour</label>
+  <input type="color" id="trouserColor" value="#34445e"
+    oninput="previewClothingColor('trousers',this.value)">
+
+  <label for="shoeColor">Shoe colour</label>
+  <input type="color" id="shoeColor" value="#eeeeee"
+    oninput="previewClothingColor('shoes',this.value)">
+</div>
     <label for="playerName" style="margin-top:24px">
       What should we call your character?
     </label>
@@ -562,6 +577,39 @@ function makeViewer(canvasId,messageId){
     );
   }
 
+    function setClothingColor(part,color){
+    if(!modelGroup) return;
+
+    const materialNames = currentModel === 'male'
+      ? {
+          top:'Tee_Navy',
+          trousers:'Denim',
+          shoes:'Sneaker_White'
+        }
+      : {
+          top:'Knit_Mustard',
+          trousers:'Denim_Dark',
+          shoes:'Leather_Tan'
+        };
+
+    const targetName = materialNames[part];
+
+    modelGroup.traverse(object => {
+      if(!object.isMesh || !object.material) return;
+
+      const materials = Array.isArray(object.material)
+        ? object.material
+        : [object.material];
+
+      materials.forEach(material => {
+        if(material.name === targetName && material.color){
+          material.color.set(color);
+          material.needsUpdate = true;
+        }
+      });
+    });
+    }
+  
   canvas.addEventListener('pointerdown',event => {
     dragging = true;
     previousX = event.clientX;
@@ -592,7 +640,7 @@ function makeViewer(canvasId,messageId){
   window.addEventListener('resize',resize);
   resize();
 
-  return {loadModel,resize};
+  return {loadModel,resize,setClothingColor};
 }
 
 function selectGender(gender){
