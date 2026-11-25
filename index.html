@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VYNDORA — A World of Your Own</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+min-height:100vh;
+font-family:Arial,sans-serif;
+color:#fff;
+background:linear-gradient(145deg,#100d29,#25194a 55%,#102c3a);
+overflow-x:hidden;
+}
+header{
+display:flex;justify-content:space-between;
+align-items:center;padding:24px 7%;
+}
+.logo{font-size:25px;font-weight:900;letter-spacing:5px;color:#e7c6ff}
+.tag{font-size:12px;color:#c9bddc}
+main{
+min-height:75vh;display:flex;flex-direction:column;
+align-items:center;justify-content:center;text-align:center;
+padding:30px 20px;
+}
+.orb{
+width:180px;height:180px;border-radius:50%;
+background:radial-gradient(circle at 35% 30%,#ffe0ff,#b48bff 30%,#493c91 65%,#17112d);
+box-shadow:0 0 60px #a77aff66,0 0 120px #8054c855;
+margin-bottom:35px;
+animation:float 4s ease-in-out infinite;
+}
+h1{font-size:clamp(44px,10vw,78px);letter-spacing:8px}
+.subtitle{margin-top:15px;color:#d0c2e9;font-size:17px}
+.description{
+max-width:480px;line-height:1.7;color:#bdb4d2;
+margin:18px 0 30px;
+}
+button{
+border:0;border-radius:30px;padding:16px 38px;
+background:linear-gradient(90deg,#d7a6ff,#a58aff);
+color:#211333;font-size:15px;font-weight:bold;
+cursor:pointer;box-shadow:0 8px 30px #a77aff55;
+}
+button:active{transform:scale(.97)}
+footer{text-align:center;padding:20px;color:#9e91b8;font-size:12px}
+@keyframes float{
+0%,100%{transform:translateY(0)}
+50%{transform:translateY(-15px)}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">VYNDORA</div>
+<div class="tag">YOUR WORLD. YOUR STORY.</div>
+</header>
+<main>
+<div class="orb"></div>
+<h1>VYNDORA</h1>
+<p class="subtitle">A world of endless possibilities.</p>
+<p class="description">
+Create your character. Discover new places.
+Build friendships and live your own virtual life.
+Your journey begins here.
+</p>
+<button onclick="enterWorld()">ENTER WORLD</button>
+<p id="message" style="margin-top:20px;color:#e7c6ff"></p>
+</main>
+<footer>VYNDORA © 2026 · DREAM. EXPLORE. LIVE.</footer>
+<script>
+function enterWorld(){
+document.getElementById("message").textContent=
+"Welcome to VYNDORA! Your adventure is coming soon.";
+}
+</script>
+</body>
+</html>
