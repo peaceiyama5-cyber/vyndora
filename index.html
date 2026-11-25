@@ -1,80 +1,245 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VYNDORA — A World of Your Own</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#160e32">
+<title>VYNDORA — Your Virtual Life</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{
-min-height:100vh;
-font-family:Arial,sans-serif;
-color:#fff;
-background:linear-gradient(145deg,#100d29,#25194a 55%,#102c3a);
-overflow-x:hidden;
+font-family:Arial,sans-serif;color:white;
+background:#100b24;min-height:100vh;
 }
 header{
-display:flex;justify-content:space-between;
-align-items:center;padding:24px 7%;
+padding:20px;display:flex;justify-content:space-between;
+align-items:center;background:#1b1235;
+border-bottom:1px solid #493568;
 }
-.logo{font-size:25px;font-weight:900;letter-spacing:5px;color:#e7c6ff}
-.tag{font-size:12px;color:#c9bddc}
-main{
-min-height:75vh;display:flex;flex-direction:column;
-align-items:center;justify-content:center;text-align:center;
-padding:30px 20px;
-}
-.orb{
-width:180px;height:180px;border-radius:50%;
-background:radial-gradient(circle at 35% 30%,#ffe0ff,#b48bff 30%,#493c91 65%,#17112d);
-box-shadow:0 0 60px #a77aff66,0 0 120px #8054c855;
-margin-bottom:35px;
-animation:float 4s ease-in-out infinite;
-}
-h1{font-size:clamp(44px,10vw,78px);letter-spacing:8px}
-.subtitle{margin-top:15px;color:#d0c2e9;font-size:17px}
-.description{
-max-width:480px;line-height:1.7;color:#bdb4d2;
-margin:18px 0 30px;
-}
+.logo{font-size:23px;font-weight:900;letter-spacing:4px;color:#e6c5ff}
+.small{font-size:11px;color:#c5b2df}
 button{
-border:0;border-radius:30px;padding:16px 38px;
-background:linear-gradient(90deg,#d7a6ff,#a58aff);
-color:#211333;font-size:15px;font-weight:bold;
-cursor:pointer;box-shadow:0 8px 30px #a77aff55;
+border:0;border-radius:12px;padding:13px 19px;
+font-weight:bold;cursor:pointer;
+background:linear-gradient(120deg,#e4b8ff,#a78aff);
+color:#201132;
 }
 button:active{transform:scale(.97)}
-footer{text-align:center;padding:20px;color:#9e91b8;font-size:12px}
-@keyframes float{
-0%,100%{transform:translateY(0)}
-50%{transform:translateY(-15px)}
+button:disabled{opacity:.4}
+.screen{display:none;padding:25px 18px 45px;max-width:850px;margin:auto}
+.screen.active{display:block}
+h1{font-size:34px;margin:15px 0}
+h2{font-size:23px;margin-bottom:15px}
+p{line-height:1.6;color:#c7badc}
+.welcome{
+min-height:85vh;display:flex;align-items:center;
+justify-content:center;text-align:center;padding:25px;
+background:radial-gradient(ellipse at 50% 40%,#48316f,#21143f 48%,#100b24);
 }
+.welcome h1{font-size:clamp(45px,12vw,76px);letter-spacing:7px}
+.orb{
+width:150px;height:150px;border-radius:50%;margin:0 auto 25px;
+background:radial-gradient(circle at 30% 25%,#fff0ff,#c18aff 30%,#55409c 70%);
+box-shadow:0 0 65px #a77aff88;
+animation:float 4s infinite ease-in-out;
+}
+@keyframes float{50%{transform:translateY(-13px)}}
+.panel{
+background:#211738;border:1px solid #49345f;
+border-radius:18px;padding:20px;margin:18px 0;
+}
+.avatar{
+width:155px;height:175px;margin:12px auto;
+border-radius:48% 48% 35% 35%;
+display:flex;align-items:center;justify-content:center;
+font-size:85px;background:linear-gradient(145deg,#513b70,#a477a5);
+border:3px solid #d6b3ff;
+}
+.options{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 20px}
+.choice{
+background:#35264b;color:white;border:1px solid #70578b;
+padding:11px 14px;border-radius:12px;
+}
+.choice.selected{background:#9b72c7;color:#160d26;border:2px solid white}
+input{
+width:100%;padding:15px;border-radius:10px;
+border:1px solid #765b91;background:#150e27;
+color:white;font-size:16px;margin:10px 0 18px;
+}
+.city{
+border-radius:16px;overflow:hidden;
+border:1px solid #59436d;background:#241938;margin:15px 0;
+}
+.city-art{
+height:160px;display:flex;align-items:center;
+justify-content:center;font-size:58px;
+background:linear-gradient(140deg,#553e79,#a66f9c,#e2a77e);
+}
+.city-info{padding:16px}
+.locked{opacity:.7}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.stat{background:#35264b;padding:15px;border-radius:12px}
+.stat strong{display:block;font-size:22px;color:#e3c1ff;margin-bottom:5px}
+.activity{
+padding:15px;background:#35264b;border-radius:12px;
+margin:10px 0;display:flex;justify-content:space-between;gap:10px;
+}
+.notice{font-size:12px;color:#bba8d4;margin-top:15px}
+footer{text-align:center;padding:22px;color:#9382ac;font-size:11px}
 </style>
 </head>
 <body>
+
 <header>
 <div class="logo">VYNDORA</div>
-<div class="tag">YOUR WORLD. YOUR STORY.</div>
+<div class="small">YOUR WORLD. YOUR STORY.</div>
 </header>
-<main>
+
+<section id="welcome" class="welcome screen active">
+<div>
 <div class="orb"></div>
 <h1>VYNDORA</h1>
-<p class="subtitle">A world of endless possibilities.</p>
-<p class="description">
-Create your character. Discover new places.
-Build friendships and live your own virtual life.
-Your journey begins here.
+<p>A world of endless possibilities.</p>
+<p style="max-width:430px;margin:18px auto 28px">
+Create your character. Discover new cities.
+Build your life. Your journey begins here.
 </p>
-<button onclick="enterWorld()">ENTER WORLD</button>
-<p id="message" style="margin-top:20px;color:#e7c6ff"></p>
-</main>
-<footer>VYNDORA © 2026 · DREAM. EXPLORE. LIVE.</footer>
+<button onclick="startGame()">ENTER WORLD</button>
+</div>
+</section>
+
+<section id="creator" class="screen">
+<p>YOUR JOURNEY STARTS HERE</p>
+<h1>Create your character</h1>
+<p>Design an original character who represents you in VYNDORA.</p>
+
+<div class="panel">
+<div class="avatar" id="avatar">👩🏽</div>
+<h2 style="text-align:center">Choose your appearance</h2>
+<div class="options" id="looks">
+<button class="choice selected" onclick="choose('looks',this,'👩🏽')">👩🏽</button>
+<button class="choice" onclick="choose('looks',this,'👩🏻')">👩🏻</button>
+<button class="choice" onclick="choose('looks',this,'👩🏿')">👩🏿</button>
+<button class="choice" onclick="choose('looks',this,'👨🏽')">👨🏽</button>
+<button class="choice" onclick="choose('looks',this,'👨🏻')">👨🏻</button>
+<button class="choice" onclick="choose('looks',this,'👨🏿')">👨🏿</button>
+<button class="choice" onclick="choose('looks',this,'🧑🏽')">🧑🏽</button>
+</div>
+
+<h2>Choose an outfit</h2>
+<div class="options" id="outfits">
+<button class="choice selected" onclick="choose('outfits',this,'👕')">👕 Casual</button>
+<button class="choice" onclick="choose('outfits',this,'👗')">👗 Stylish</button>
+<button class="choice" onclick="choose('outfits',this,'🧥')">🧥 Streetwear</button>
+<button class="choice" onclick="choose('outfits',this,'👔')">👔 Formal</button>
+</div>
+
+<label for="playerName">What should we call you?</label>
+<input id="playerName" maxlength="18" placeholder="Enter your character's name">
+<button style="width:100%" onclick="saveCharacter()">CREATE MY CHARACTER</button>
+<p class="notice">This prototype saves your character in this browser on this device.</p>
+</div>
+</section>
+
+<section id="world" class="screen">
+<p>WELCOME TO YOUR NEW LIFE</p>
+<h1 id="greeting">Welcome!</h1>
+<div class="panel" style="text-align:center">
+<div class="avatar" id="savedAvatar">👩🏽</div>
+<h2 id="savedName">Your character</h2>
+<p id="savedOutfit">Casual style</p>
+</div>
+<div class="stats">
+<div class="stat"><strong id="coins">500</strong>V-Coins (demo)</div>
+<div class="stat"><strong>1</strong>Character</div>
+</div>
+<h2 style="margin-top:28px">Choose your destination</h2>
+<p>One world. Many places. Your journey can take you anywhere.</p>
+
+<div class="city">
+<div class="city-art">🌆 🚌 🏙️</div>
+<div class="city-info">
+<h2>Lagos, Nigeria</h2>
+<p>Explore neighbourhoods, markets, homes and the busy city life.</p>
+<button onclick="enterCity()">EXPLORE LAGOS</button>
+</div>
+</div>
+
+<div class="city locked">
+<div class="city-art" style="background:linear-gradient(130deg,#354a7a,#9b8ac1)">🌉 🏙️ 🚕</div>
+<div class="city-info"><h2>London, UK</h2><p>A new city to discover. Coming soon.</p><button disabled>COMING SOON</button></div>
+</div>
+
+<div class="city locked">
+<div class="city-art" style="background:linear-gradient(130deg,#264d65,#a9a0d4)">🗽 🌃 🚖</div>
+<div class="city-info"><h2>New York, USA</h2><p>Discover a different lifestyle. Coming soon.</p><button disabled>COMING SOON</button></div>
+</div>
+
+<div class="city locked">
+<div class="city-art" style="background:linear-gradient(130deg,#72513b,#d8a86e)">🏙️ 🌴 ✨</div>
+<div class="city-info"><h2>Dubai, UAE</h2><p>Luxury, adventure and new experiences. Coming soon.</p><button disabled>COMING SOON</button></div>
+</div>
+</section>
+
+<section id="lagos" class="screen">
+<p>YOUR FIRST DESTINATION</p>
+<h1>Welcome to Lagos!</h1>
+<p>Welcome to your new neighbourhood. This is the beginning of your virtual life.</p>
+<div class="city">
+<div class="city-art" style="height:210px">🏙️ 🚌 🏬 🌴 🚗</div>
+<div class="city-info">
+<h2>Your city life begins</h2>
+<p>Explore your surroundings and discover the opportunities waiting for you.</p>
+</div>
+</div>
+<h2>Available activities</h2>
+<div class="activity"><span>🏘️ Discover neighbourhoods</span><span>Soon</span></div>
+<div class="activity"><span>🛍️ Visit the market</span><span>Soon</span></div>
+<div class="activity"><span>💼 Find a job</span><span>Soon</span></div>
+<div class="activity"><span>🏠 Find a home</span><span>Soon</span></div>
+<div class="activity"><span>🎉 Enjoy entertainment</span><span>Soon</span></div>
+<button onclick="show('world')">BACK TO WORLD MAP</button>
+<p class="notice">This is an early game prototype. These activities are planned, not playable yet.</p>
+</section>
+
+<footer>VYNDORA © 2026 · DREAM · EXPLORE · LIVE</footer>
+
 <script>
-function enterWorld(){
-document.getElementById("message").textContent=
-"Welcome to VYNDORA! Your adventure is coming soon.";
+let appearance='👩🏽';
+let outfit='👕';
+let character=null;
+
+function show(id){
+document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+window.scrollTo(0,0);
 }
+function startGame(){
+character=JSON.parse(localStorage.getItem('vyndoraCharacter')||'null');
+if(character){loadCharacter();show('world');}
+else{show('creator');}
+}
+function choose(group,button,value){
+document.querySelectorAll('#'+group+' .choice').forEach(b=>b.classList.remove('selected'));
+button.classList.add('selected');
+if(group==='looks'){appearance=value;document.getElementById('avatar').textContent=value;}
+if(group==='outfits'){outfit=value;}
+}
+function saveCharacter(){
+let name=document.getElementById('playerName').value.trim();
+if(!name){alert('Please enter your character name.');return;}
+character={name:name,appearance:appearance,outfit:outfit};
+localStorage.setItem('vyndoraCharacter',JSON.stringify(character));
+loadCharacter();
+show('world');
+}
+function loadCharacter(){
+document.getElementById('greeting').textContent='Welcome, '+character.name+'!';
+document.getElementById('savedName').textContent=character.name;
+document.getElementById('savedAvatar').textContent=character.appearance;
+document.getElementById('savedOutfit').textContent='Outfit: '+character.outfit;
+}
+function enterCity(){show('lagos');}
 </script>
 </body>
 </html>
