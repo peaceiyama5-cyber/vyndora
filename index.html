@@ -18,8 +18,8 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{
   font-family:Arial,sans-serif;
-  color:white;
-  background:#100b24;
+  color:#E8E1EF;
+  background:#09090D;
   min-height:100vh;
 }
 header{
@@ -27,8 +27,9 @@ header{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  background:#1b1235;
-  border-bottom:1px solid #493568;
+  background:#09090D;
+  border-bottom:1px solid #8B42D9;
+  box-shadow:0 2px 12px #8B42D922;
 }
 .logo{
   font-size:23px;
@@ -38,13 +39,14 @@ header{
 }
 .small{font-size:11px;color:#c5b2df}
 button{
-  border:0;
+  border:1px solid #8B42D9;
   border-radius:12px;
   padding:13px 19px;
   font-weight:bold;
   cursor:pointer;
-  background:linear-gradient(120deg,#e4b8ff,#a78aff);
-  color:#201132;
+  background:linear-gradient(120deg,#8B42D9,#B66AFF);
+  color:#ffffff;
+  box-shadow:0 0 10px #8B42D933;
 }
 button:active{transform:scale(.97)}
 button:disabled{opacity:.4}
@@ -88,11 +90,12 @@ p{line-height:1.6;color:#c7badc}
 }
 @keyframes float{50%{transform:translateY(-13px)}}
 .panel{
-  background:#211738;
-  border:1px solid #49345f;
+  background:#111016;
+  border:1px solid #8B42D9;
   border-radius:18px;
   padding:20px;
   margin:18px 0;
+  box-shadow:0 0 12px #8B42D922;
 }
 .options{
   display:flex;
@@ -159,6 +162,38 @@ input{
   margin-top:9px;
 }
 label{display:block;color:#e8d9f8;font-size:14px}
+  .color-section{
+  margin-top:22px;
+}
+
+.color-section h3{
+  font-size:15px;
+  margin-bottom:12px;
+  color:#ead8ff;
+}
+
+.color-options{
+  display:flex;
+  flex-wrap:wrap;
+  gap:13px;
+  margin-bottom:18px;
+}
+
+.color-dot{
+  width:36px;
+  height:36px;
+  min-width:36px;
+  padding:0;
+  border-radius:50%;
+  border:3px solid #ffffff55;
+  cursor:pointer;
+}
+
+.color-dot.selected{
+  outline:3px solid #d8b5ff;
+  outline-offset:3px;
+  border-color:white;
+}
 .notice{
   font-size:12px;
   color:#bba8d4;
@@ -263,22 +298,56 @@ footer{
     <p class="viewer-tip">
       Drag your finger across the character to rotate and view them from different angles.
     </p>
-<div class="panel">
-  <h2>Choose your outfit colours</h2>
-  <p>Make your character's outfit your own.</p>
 
-  <label for="topColor">Top colour</label>
-  <input type="color" id="topColor" value="#202b55"
-    oninput="previewClothingColor('top',this.value)">
+    <div class="color-section">
+  <h3>Choose your top colour</h3>
+  <div class="color-options">
+    <button class="color-dot selected" style="background:#202b55"
+      onclick="chooseClothingColor('top','#202b55',this)"></button>
+    <button class="color-dot" style="background:#e53935"
+      onclick="chooseClothingColor('top','#e53935',this)"></button>
+    <button class="color-dot" style="background:#ffffff"
+      onclick="chooseClothingColor('top','#ffffff',this)"></button>
+    <button class="color-dot" style="background:#111111"
+      onclick="chooseClothingColor('top','#111111',this)"></button>
+    <button class="color-dot" style="background:#e9b44c"
+      onclick="chooseClothingColor('top','#e9b44c',this)"></button>
+    <button class="color-dot" style="background:#26a69a"
+      onclick="chooseClothingColor('top','#26a69a',this)"></button>
+  </div>
 
-  <label for="trouserColor">Trouser colour</label>
-  <input type="color" id="trouserColor" value="#34445e"
-    oninput="previewClothingColor('trousers',this.value)">
+  <h3>Choose your trouser colour</h3>
+  <div class="color-options">
+    <button class="color-dot selected" style="background:#202b55"
+      onclick="chooseClothingColor('trousers','#202b55',this)"></button>
+    <button class="color-dot" style="background:#111111"
+      onclick="chooseClothingColor('trousers','#111111',this)"></button>
+    <button class="color-dot" style="background:#795548"
+      onclick="chooseClothingColor('trousers','#795548',this)"></button>
+    <button class="color-dot" style="background:#eeeeee"
+      onclick="chooseClothingColor('trousers','#eeeeee',this)"></button>
+    <button class="color-dot" style="background:#607d8b"
+      onclick="chooseClothingColor('trousers','#607d8b',this)"></button>
+    <button class="color-dot" style="background:#8e44ad"
+      onclick="chooseClothingColor('trousers','#8e44ad',this)"></button>
+  </div>
 
-  <label for="shoeColor">Shoe colour</label>
-  <input type="color" id="shoeColor" value="#eeeeee"
-    oninput="previewClothingColor('shoes',this.value)">
-</div>
+  <h3>Choose your shoe colour</h3>
+  <div class="color-options">
+    <button class="color-dot selected" style="background:#111111"
+      onclick="chooseClothingColor('shoes','#111111',this)"></button>
+    <button class="color-dot" style="background:#ffffff"
+      onclick="chooseClothingColor('shoes','#ffffff',this)"></button>
+    <button class="color-dot" style="background:#795548"
+      onclick="chooseClothingColor('shoes','#795548',this)"></button>
+    <button class="color-dot" style="background:#e53935"
+      onclick="chooseClothingColor('shoes','#e53935',this)"></button>
+    <button class="color-dot" style="background:#e9b44c"
+      onclick="chooseClothingColor('shoes','#e9b44c',this)"></button>
+    <button class="color-dot" style="background:#607d8b"
+      onclick="chooseClothingColor('shoes','#607d8b',this)"></button>
+  </div>
+    </div>
     <label for="playerName" style="margin-top:24px">
       What should we call your character?
     </label>
@@ -432,7 +501,13 @@ let selectedGender = 'female';
 let creatorViewer = null;
 let worldViewer = null;
 
-function show(id){
+  const selectedClothingColors = {
+  top:'#202b55',
+  trousers:'#202b55',
+  shoes:'#111111'
+};
+  
+function show (id){
   document.querySelectorAll('.screen').forEach(screen =>
     screen.classList.remove('active')
   );
@@ -553,6 +628,10 @@ function makeViewer(canvasId,messageId){
         modelGroup.add(model);
         scene.add(modelGroup);
 
+        Object.entries(selectedClothingColors).forEach(([part,color]) => {
+  setClothingColor(part,color);
+});
+
         if(gltf.animations && gltf.animations.length){
           mixer = new THREE.AnimationMixer(model);
           const idleClip =
@@ -662,6 +741,11 @@ function startGame(){
   if(saved){
     try{
       character = JSON.parse(saved);
+      
+      if(character.colors){
+  Object.assign(selectedClothingColors,character.colors);
+      }
+      
       if(!character.gender) character.gender = 'female';
       loadCharacter();
       show('world');
@@ -693,10 +777,11 @@ function saveCharacter(){
   }
 
   character = {
-    name:name,
-    gender:selectedGender,
-    model:MODEL_FILES[selectedGender]
-  };
+  name:name,
+  gender:selectedGender,
+  model:MODEL_FILES[selectedGender],
+  colors:{...selectedClothingColors}
+};
 
   localStorage.setItem(
     'vyndoraCharacter',
@@ -727,6 +812,11 @@ function changeCharacter(){
 
   if(saved){
     character = JSON.parse(saved);
+
+    if(character.colors){
+  Object.assign(selectedClothingColors,character.colors);
+    }
+    
     selectedGender = character.gender || 'female';
     document.getElementById('playerName').value =
       character.name || '';
@@ -748,6 +838,22 @@ function changeCharacter(){
 
   creatorViewer.loadModel(selectedGender);
 }
+  function chooseClothingColor(part,color,button){
+  selectedClothingColors[part] = color;
+
+  if(creatorViewer){
+    creatorViewer.setClothingColor(part,color);
+  }
+
+  const group = button.parentElement;
+
+  group.querySelectorAll('.color-dot').forEach(dot => {
+    dot.classList.remove('selected');
+  });
+
+  button.classList.add('selected');
+  }
+  
 function enterCity(){
   show('lagos');
 }
@@ -758,6 +864,7 @@ window.changeCharacter = changeCharacter;
 window.saveCharacter = saveCharacter;
 window.enterCity = enterCity;
 window.show = show;
+window.chooseClothingColor = chooseClothingColor;
 </script>
 </body>
 </html>
