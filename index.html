@@ -772,6 +772,7 @@ function makeViewer(canvasId,messageId){
   resize();
 
   return {loadModel,resize,setClothingColor,setSkinColor};
+}
 
 function selectGender(gender){
   selectedGender = gender;
@@ -836,6 +837,7 @@ function saveCharacter(){
   model:MODEL_FILES[selectedGender],
   colors:{...selectedClothingColors},
 skinColor:selectedSkinColor
+  };
 
   localStorage.setItem(
     'vyndoraCharacter',
@@ -901,7 +903,17 @@ function changeCharacter(){
   if(creatorViewer){
     creatorViewer.setClothingColor(part,color);
   }
-    function chooseSkinColor(color,button){
+
+  const group = button.parentElement;
+
+  group.querySelectorAll('.color-dot').forEach(dot => {
+    dot.classList.remove('selected');
+  });
+
+  button.classList.add('selected');
+}
+
+function chooseSkinColor(color,button){
   selectedSkinColor = color;
 
   if(creatorViewer){
@@ -915,16 +927,7 @@ function changeCharacter(){
   });
 
   button.classList.add('selected');
-    }
-
-  const group = button.parentElement;
-
-  group.querySelectorAll('.color-dot').forEach(dot => {
-    dot.classList.remove('selected');
-  });
-
-  button.classList.add('selected');
-  }
+}
   
 function enterCity(){
   show('lagos');
