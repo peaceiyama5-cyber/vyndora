@@ -528,6 +528,28 @@ footer{
     <p>Rent a home or purchase one permanently.</p>
   </div>
 
+    <div id="propertyListings"></div>
+
+    <div id="homeConfirmation" class="panel" style="display:none">
+  <h2>Confirm Your New Home</h2>
+
+  <h3 id="confirmHomeName"></h3>
+
+  <p id="confirmHomeLocation"></p>
+
+  <h2 id="confirmHomePrice"></h2>
+
+  <p id="confirmHomeOption"></p>
+
+  <button onclick="confirmHomeChoice()">
+    CONFIRM MY CHOICE
+  </button>
+
+  <button onclick="cancelHomeChoice()">
+    GO BACK
+  </button>
+    </div>
+    
   <div class="city">
     <div class="city-info">
       <h2>Affordable Homes</h2>
@@ -1044,25 +1066,115 @@ function chooseNeighbourhood(name){
   show('properties');
 }
   
-  function showProperties(category, option){
+function showProperties(category, option){
   const heading = document.getElementById('propertyHeading');
   const location = document.getElementById('propertyLocation');
 
-  const names = {
-    affordable: 'Affordable Homes',
-    midrange: 'Mid-Range Homes',
-    luxury: 'Luxury Homes'
+  const listings = {
+    affordable: [
+      {name:'Cosy Starter Apartment', rent:25000, buy:2500000, rooms:1},
+      {name:'Comfort Apartment', rent:40000, buy:4000000, rooms:2}
+    ],
+    midrange: [
+      {name:'Modern City Apartment', rent:80000, buy:8500000, rooms:2},
+      {name:'Family Duplex', rent:120000, buy:15000000, rooms:3}
+    ],
+    luxury: [
+      {name:'Luxury Penthouse', rent:250000, buy:35000000, rooms:3},
+      {name:'Executive Villa', rent:400000, buy:60000000, rooms:4}
+    ]
   };
 
-  heading.textContent = names[category] + ' — ' +
-    (option === 'rent' ? 'For Rent' : 'For Sale');
+  const homes = listings[category];
 
-  location.textContent = selectedNeighbourhood +
-    ', Lagos, Nigeria';
+  if(!homes) return;
 
-  alert('Next, we will load the ' + option +
-    ' properties in ' + selectedNeighbourhood + '.');
-  }
+  window.currentPropertyListings = homes;
+window.currentPropertyCategory = category;
+window.currentPropertyOption = option;
+
+  heading.textContent =
+    category.charAt(0).toUpperCase() + category.slice(1) +
+    ' Homes — ' + (option === 'rent' ? 'For Rent' : 'For Sale');
+
+  location.textContent = selectedNeighbourhood + ', Lagos, Nigeria';
+
+  let html = '';
+
+  homes.forEach((home, index) => {
+    const price = option === 'rent' ? home.rent : home.buy;
+
+    html += `
+      <div class="city">
+        <div class="city-info">
+          <h2>${home.name}</h2>
+          <p>${home.rooms} bedroom(s)</p>
+          <h3>₦${price.toLocaleString('en-NG')}
+          ${option === 'rent' ? ' / month' : ' purchase price'}</h3>
+          <button onclick="selectHome('${category}',${index},'${option}')">
+            ${option === 'rent' ? 'RENT THIS HOME' : 'BUY THIS HOME'}
+          </button>
+        </div>
+      </div>
+    `;
+  });
+
+  document.getElementById('propertyListings').innerHTML = html;
+}
+
+  let pendingHomeChoice = null;
+
+function selectHome(category, index, option){
+  const home = window.currentPropertyListings[index];
+
+  if(!home) return;
+
+  const price = option === 'rent' ? home.rent : home.buy;
+
+  pendingHomeChoice = {
+    name: home.name,
+    rooms: home.rooms,
+    price: price,
+    option: option,
+    neighbourhood: selectedNeighbourhood
+  };
+
+  document.getElementById('confirmHomeName').textContent =
+    home.name + ' — ' + home.rooms + ' Bedroom(s)';
+
+  document.getElementById('confirmHomeLocation').textContent =
+    selectedNeighbourhood + ', Lagos, Nigeria';
+
+  document.getElementById('confirmHomePrice').textContent =
+    '₦' + price.toLocaleString('en-NG');
+
+  document.getElementById('confirmHomeOption').textContent =
+    option === 'rent' ? 'Rental payment: Monthly' : 'Permanent purchase';
+
+  document.getElementById('homeConfirmation').style.display = 'block';
+
+  document.getElementById('homeConfirmation').scrollIntoView({
+    behavior: 'smooth'
+  });
+}
+
+  function confirmHomeChoice(){
+  if(!pendingHomeChoice) return;
+
+  alert(
+    'Your home choice is ready!\n\n' +
+    pendingHomeChoice.name +
+    '\n' + pendingHomeChoice.neighbourhood +
+    '\n₦' + pendingHomeChoice.price.toLocaleString('en-NG') +
+    '\n\nPayment and ownership will be activated when the secure wallet system is connected.'
+  );
+}
+
+function cancelHomeChoice(){
+  pendingHomeChoice = null;
+
+  document.getElementById('homeConfirmation').style.display = 'none';
+}
   
 window.startGame = startGame;
 window.selectGender = selectGender;
