@@ -480,33 +480,84 @@ footer{
   <p id="lagosDayStatus">Checking the time of day...</p>
   </div>
 
+    <h2>Choose Your Lagos Neighbourhood</h2>
+  <p>Choose where you want your virtual life to begin.</p>
+
   <div class="city">
-    <div class="city-art" style="height:210px">
-      🏙️ 🚌 🏬 🌴 🚗
-    </div>
     <div class="city-info">
-      <h2>Your city life begins</h2>
-      <p>
-        Explore your surroundings and discover the opportunities
-        waiting for you.
-      </p>
+      <h2>Lekki</h2>
+      <p>Modern homes, shopping and beautiful surroundings.</p>
+      <button onclick="chooseNeighbourhood('Lekki')">EXPLORE LEKKI</button>
     </div>
   </div>
 
-  <h2>Available activities</h2>
-  <div class="activity"><span>Discover neighbourhoods</span><span>Soon</span></div>
-  <div class="activity"><span>Visit the market</span><span>Soon</span></div>
-  <div class="activity"><span>Find a job</span><span>Soon</span></div>
-  <div class="activity"><span>Find a home</span><span>Soon</span></div>
-  <div class="activity"><span>Enjoy entertainment</span><span>Soon</span></div>
+  <div class="city">
+    <div class="city-info">
+      <h2>Ikeja</h2>
+      <p>A lively neighbourhood with plenty of opportunities.</p>
+      <button onclick="chooseNeighbourhood('Ikeja')">EXPLORE IKEJA</button>
+    </div>
+  </div>
+
+  <div class="city">
+    <div class="city-info">
+      <h2>Surulere</h2>
+      <p>A welcoming neighbourhood with a vibrant community.</p>
+      <button onclick="chooseNeighbourhood('Surulere')">EXPLORE SURULERE</button>
+    </div>
+  </div>
+
+  <div class="city">
+    <div class="city-info">
+      <h2>Victoria Island</h2>
+      <p>Experience upscale city living and luxury properties.</p>
+      <button onclick="chooseNeighbourhood('Victoria Island')">EXPLORE VICTORIA ISLAND</button>
+    </div>
+  </div>
 
   <button onclick="show('world')">BACK TO WORLD MAP</button>
-  <p class="notice">
-    This is an early game prototype. These activities are planned,
-    not playable yet.
-  </p>
 </section>
 
+  <section id="properties" class="screen">
+  <p>YOUR NEW HOME</p>
+  <h1 id="propertyHeading">Find Your Home</h1>
+  <p id="propertyLocation">Choose a property in your neighbourhood.</p>
+
+  <div class="panel">
+    <h2>Choose how you want to live</h2>
+    <p>Rent a home or purchase one permanently.</p>
+  </div>
+
+  <div class="city">
+    <div class="city-info">
+      <h2>Affordable Homes</h2>
+      <p>Comfortable homes for starting your virtual life.</p>
+      <button onclick="showProperties('affordable','rent')">VIEW RENTAL HOMES</button>
+      <button onclick="showProperties('affordable','buy')">VIEW HOMES TO BUY</button>
+    </div>
+  </div>
+
+  <div class="city">
+    <div class="city-info">
+      <h2>Mid-Range Homes</h2>
+      <p>More space and extra comfort.</p>
+      <button onclick="showProperties('midrange','rent')">VIEW RENTAL HOMES</button>
+      <button onclick="showProperties('midrange','buy')">VIEW HOMES TO BUY</button>
+    </div>
+  </div>
+
+  <div class="city">
+    <div class="city-info">
+      <h2>Luxury Homes</h2>
+      <p>Premium homes for an upgraded lifestyle.</p>
+      <button onclick="showProperties('luxury','rent')">VIEW RENTAL HOMES</button>
+      <button onclick="showProperties('luxury','buy')">VIEW HOMES TO BUY</button>
+    </div>
+  </div>
+
+  <button onclick="show('lagos')">BACK TO NEIGHBOURHOODS</button>
+  </section>
+  
 <footer>
   VYNDORA © 2026 · DREAM · EXPLORE · LIVE
   <p style="font-size:10px;margin-top:8px">
@@ -979,6 +1030,40 @@ function enterCity(){
   }
 }
 
+  let selectedNeighbourhood = '';
+
+function chooseNeighbourhood(name){
+  selectedNeighbourhood = name;
+
+  document.getElementById('propertyHeading').textContent =
+    name + ' Properties';
+
+  document.getElementById('propertyLocation').textContent =
+    'Choose a home in ' + name + ', Lagos, Nigeria.';
+
+  show('properties');
+}
+  
+  function showProperties(category, option){
+  const heading = document.getElementById('propertyHeading');
+  const location = document.getElementById('propertyLocation');
+
+  const names = {
+    affordable: 'Affordable Homes',
+    midrange: 'Mid-Range Homes',
+    luxury: 'Luxury Homes'
+  };
+
+  heading.textContent = names[category] + ' — ' +
+    (option === 'rent' ? 'For Rent' : 'For Sale');
+
+  location.textContent = selectedNeighbourhood +
+    ', Lagos, Nigeria';
+
+  alert('Next, we will load the ' + option +
+    ' properties in ' + selectedNeighbourhood + '.');
+  }
+  
 window.startGame = startGame;
 window.selectGender = selectGender;
 window.changeCharacter = changeCharacter;
